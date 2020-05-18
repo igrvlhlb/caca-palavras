@@ -1,0 +1,2 @@
+rootProject.name='Caça Palavras'
+include ':app'

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Caça Palavras</string>
+    <string name="texto_saudacao">Seja bem-vindo!</string>
+    <string name="texto_comeca">Começar</string>
+    <string name="dificuldade">Dificuldade: </string>
+    <string name="logo_descricao">Logo do Núcleo de Entretenimento Ciência em Jogo</string>
+    <string name="actbar_inicial">Caça Palavras (NECEJ)</string>
+    <string-array name="texto_dificuldade">
+        <item>Fácil</item>
+        <item>Intermediário</item>
+        <item>Difícil</item>
+        <item>Muito Difícil</item>
+    </string-array>
+</resources>

@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/holo_blue_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_blue_light</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/app_bg</item>
+        <item name="fontFamily">@font/vt323</item>
+        <item name="buttonStyle">@style/ButtonStyle</item>
+    </style>
+    <style name="ButtonStyle">
+        <item name="android:background">@drawable/but_bg</item>
+        <item name="fontFamily">@font/vt323</item>
+        <item name="android:textColor">@color/but_txt</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:width">300dp</item>
+        <item name="android:height">69dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingBottom">2sp</item>
+    </style>
+</resources>
