@@ -1,11 +1,9 @@
 package com.necej.necej_cp;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Point;
-import android.os.Bundle;
-import android.view.ViewGroup;
 
 import com.necej.necej_cp.jogo_utils.Grade;
 import com.necej.necej_cp.jogo_utils.Tabuleiro;
@@ -25,6 +23,7 @@ public class JogoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jogo);
         mDificuldade = getIntent().getExtras().getString(TelaInicialActivity.EXTRA_DIFICULDADE);
+        Logger.getAnonymousLogger().info(String.format("EXTRA_DIFICULDADE %s\n", mDificuldade));
         this.hideBar();
         mTabuleiroView = findViewById(R.id.tabuleiro_image);
         mGrade = new Grade(10,10);
@@ -40,17 +39,13 @@ public class JogoActivity extends AppCompatActivity {
         }
     }
     private void enquadraImageView(){
-        Point p = new Point();
-        getWindowManager().getDefaultDisplay().getSize(p);
-        mImageSize = Math.min(p.x,p.y);
-        mTabuleiro = new Tabuleiro(mGrade, mImageSize, mImageSize);
+        //Mede TabuleiroView
+        mTabuleiro = new Tabuleiro(mGrade);
         mTabuleiroView.init(mTabuleiro);
-        ViewGroup.LayoutParams layoutPar = this.mTabuleiroView.getLayoutParams();
-        //layoutPar.width = this.pxToDp(this.imageSize);
-        //layoutPar.height = this.pxToDp(this.imageSize);
+        /*ViewGroup.LayoutParams layoutPar = this.mTabuleiroView.getLayoutParams();
         layoutPar.width = this.mImageSize;
         layoutPar.height = this.mImageSize;
-        this.mTabuleiroView.setLayoutParams(layoutPar);
+        this.mTabuleiroView.setLayoutParams(layoutPar);*/
     }
     public int dpToPx(int dp) {
         float density = this.getResources()

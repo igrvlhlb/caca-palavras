@@ -10,6 +10,7 @@ import android.graphics.fonts.Font;
 import android.graphics.fonts.FontStyle;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
@@ -18,7 +19,6 @@ import com.necej.necej_cp.R;
 
 public class TabuleiroView extends View {
 
-    Point mScrSize;
     private int mWidth, mHeight;
     private Canvas mExtraCanvas;
     private Paint mLetras = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -27,6 +27,7 @@ public class TabuleiroView extends View {
     private Bitmap mExtraBitmap;
     private int mColorFonteGrade, mColorLinhasGrade, mColorBG;
     private final int mLinhaWidth = 3;
+    private final float mLetSizePercent = 0.75f;
     private Tabuleiro mTabuleiro;
     private boolean mReady = false; //indica se todos os parametros ja foram inicializados
 
@@ -46,7 +47,7 @@ public class TabuleiroView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(mReady) {
+        if(mReady && (mHeight > 0 && mWidth > 0)) {
             canvas.drawBitmap(mExtraBitmap, 0, 0, null);
         }
     }
@@ -54,12 +55,10 @@ public class TabuleiroView extends View {
     public void init(Tabuleiro tabuleiro){
         mReady = true;
         mTabuleiro = tabuleiro;
-
         mColorFonteGrade = getResources().getColor(R.color.colorFonteGrade);
         mColorLinhasGrade = getResources().getColor(R.color.colorLinhasGrade);
         mColorBG = getResources().getColor(R.color.colorTabBG);
         mLetras.setColor(mColorFonteGrade);
-        mLetras.setTextSize( Math.min(tabuleiro.getmXGap(),tabuleiro.getmYGap())*0.75f );
         mLetras.setTextAlign(Paint.Align.CENTER);
         mLetras.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL));
         mLinhas.setColor(mColorLinhasGrade);
@@ -69,10 +68,16 @@ public class TabuleiroView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if(mReady) {
-            int uniSz = Math.min(w, h);
-            mWidth = uniSz;
-            mHeight = uniSz;
+        int uniSz = (w==0 || h==0) ? Math.max(w, h) : Math.min(w, h);
+        mWidth = uniSz;
+        mHeight = uniSz;
+        if(mReady && uniSz > 0) {
+            ViewGroup.LayoutParams layoutPar = this.getLayoutParams();
+            layoutPar.width = mWidth;
+            layoutPar.height = mHeight;
+            this.setLayoutParams(layoutPar);
+            mTabuleiro.setXY(mWidth,mHeight);
+            mLetras.setTextSize( Math.min(mTabuleiro.getmXGap(),mTabuleiro.getmYGap())*mLetSizePercent );
             mExtraBitmap = Bitmap.createBitmap(uniSz, uniSz,
                     Bitmap.Config.ARGB_8888);
             mExtraCanvas = new Canvas(mExtraBitmap);

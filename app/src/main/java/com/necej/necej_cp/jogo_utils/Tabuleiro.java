@@ -25,6 +25,29 @@ public class Tabuleiro {
         mXGC = mXGap/2;
         mYGC = mYGap/2;
     }
+    public Tabuleiro(@NotNull Grade grade){
+        mGrade = grade;
+        mMat = grade.mat;
+        mLin = grade.getmLin();
+        mCol = grade.getmCol();
+    }
+    public Tabuleiro(int pX, int pY){
+        mPX = pX;
+        mPY = pY;
+        mXGap = pX/mCol;
+        mYGap = pY/mLin;
+        mXGC = mXGap/2;
+        mYGC = mYGap/2;
+    }
+
+    public void setXY(int pX, int pY){
+        mPX = pX;
+        mPY = pY;
+        mXGap = pX/mCol;
+        mYGap = pY/mLin;
+        mXGC = mXGap/2;
+        mYGC = mYGap/2;
+    }
 
     public Point getCellIdx(int x, int y){
         int cX, cY;
