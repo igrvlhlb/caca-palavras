@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.graphics.fonts.Font;
 import android.graphics.fonts.FontStyle;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -51,7 +52,7 @@ public class TabuleiroView extends View {
             canvas.drawBitmap(mExtraBitmap, 0, 0, null);
         }
     }
-    //TODO: utilizar obj tabuleiro para inicializacao
+
     public void init(Tabuleiro tabuleiro){
         mReady = true;
         mTabuleiro = tabuleiro;
@@ -72,12 +73,14 @@ public class TabuleiroView extends View {
         mWidth = uniSz;
         mHeight = uniSz;
         if(mReady && uniSz > 0) {
+            //Muda o tamanho da View
             ViewGroup.LayoutParams layoutPar = this.getLayoutParams();
             layoutPar.width = mWidth;
             layoutPar.height = mHeight;
             this.setLayoutParams(layoutPar);
+            //
             mTabuleiro.setXY(mWidth,mHeight);
-            mLetras.setTextSize( Math.min(mTabuleiro.getmXGap(),mTabuleiro.getmYGap())*mLetSizePercent );
+            mLetras.setTextSize( (convertDpToPx(Math.min(mTabuleiro.getmXGap(),mTabuleiro.getmYGap())*mLetSizePercent, getContext() )/2)*mLetSizePercent);
             mExtraBitmap = Bitmap.createBitmap(uniSz, uniSz,
                     Bitmap.Config.ARGB_8888);
             mExtraCanvas = new Canvas(mExtraBitmap);
@@ -86,6 +89,7 @@ public class TabuleiroView extends View {
             escreveLinhas();
         }
     }
+
     private void desenhaGrade(){
         int yG,xG;
         yG = mTabuleiro.getmYGap();
@@ -102,12 +106,17 @@ public class TabuleiroView extends View {
         int lin, col;
         for(lin = 0; lin < mTabuleiro.getmLin(); lin++){
             //cY = mTabuleiro.getBaseY(lin) - mTabuleiro.getmYGap()/8;
-            cY = (int) (mTabuleiro.getBaseY(lin) - mTabuleiro.getmYGap()*0.25f);
+            cY = (int) (mTabuleiro.getBaseY(lin) - (mTabuleiro.getmYGap()*((1-mLetSizePercent)/2)));
             for(col = 0; col < mTabuleiro.getmCol(); col++){
                 cX = mTabuleiro.getCenterX(col);
                 mExtraCanvas.drawText(mTabuleiro.getCharAsString(lin,col),cX,cY,mLetras);
             }
         }
     }
-
+    public static float convertPixelsToDp(float px, Context context){
+        return px / ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
+    public static float convertDpToPx(float dp, Context context){
+        return dp*((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
 }

@@ -24,10 +24,10 @@ public class JogoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_jogo);
         mDificuldade = getIntent().getExtras().getString(TelaInicialActivity.EXTRA_DIFICULDADE);
         Logger.getAnonymousLogger().info(String.format("EXTRA_DIFICULDADE %s\n", mDificuldade));
-        this.hideBar();
+        //this.hideBar();
         mTabuleiroView = findViewById(R.id.tabuleiro_image);
         mGrade = new Grade(10,10);
-        this.enquadraImageView();
+        this.criaTabuleiro();
     }
 
     private void hideBar(){
@@ -38,14 +38,9 @@ public class JogoActivity extends AppCompatActivity {
             Logger.getAnonymousLogger().info("ERRO AO TENTAR OBTER REFERENCIA PARA ACTIONBAR");
         }
     }
-    private void enquadraImageView(){
-        //Mede TabuleiroView
+    private void criaTabuleiro(){
         mTabuleiro = new Tabuleiro(mGrade);
         mTabuleiroView.init(mTabuleiro);
-        /*ViewGroup.LayoutParams layoutPar = this.mTabuleiroView.getLayoutParams();
-        layoutPar.width = this.mImageSize;
-        layoutPar.height = this.mImageSize;
-        this.mTabuleiroView.setLayoutParams(layoutPar);*/
     }
     public int dpToPx(int dp) {
         float density = this.getResources()
