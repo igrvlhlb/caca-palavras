@@ -24,7 +24,6 @@ public class TabuleiroView extends View {
     private Canvas mExtraCanvas;
     private Paint mLetras = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mLinhas = new Paint();
-    private Paint mMarcadores = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Bitmap mExtraBitmap;
     private int mColorFonteGrade, mColorLinhasGrade, mColorBG;
     private final int mLinhaWidth = 3;
@@ -118,5 +117,14 @@ public class TabuleiroView extends View {
     }
     public static float convertDpToPx(float dp, Context context){
         return dp*((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
+    public Tabuleiro getTabuleiro(){
+        return mTabuleiro;
+    }
+    public Canvas getCanvas(){
+        return mExtraCanvas;
+    }
+    public Bitmap getBitmap(){
+        return mExtraBitmap;
     }
 }
