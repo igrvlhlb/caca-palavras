@@ -10,6 +10,7 @@ import android.graphics.fonts.Font;
 import android.graphics.fonts.FontStyle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.necej.necej_cp.R;
+import com.necej.necej_cp.listeners.TabuleiroListener;
 
 public class TabuleiroView extends View {
 
@@ -30,6 +32,7 @@ public class TabuleiroView extends View {
     private final float mLetSizePercent = 0.75f;
     private Tabuleiro mTabuleiro;
     private boolean mReady = false; //indica se todos os parametros ja foram inicializados
+    private TabuleiroListener mTabListener;
 
     public TabuleiroView(Context context) {
         super(context);
@@ -86,6 +89,8 @@ public class TabuleiroView extends View {
             mExtraCanvas.drawColor(mColorBG);
             desenhaGrade();
             escreveLinhas();
+            mTabListener = new TabuleiroListener(this);
+
         }
     }
 
@@ -107,7 +112,7 @@ public class TabuleiroView extends View {
             //cY = mTabuleiro.getBaseY(lin) - mTabuleiro.getmYGap()/8;
             cY = (int) (mTabuleiro.getBaseY(lin) - (mTabuleiro.getmYGap()*((1-mLetSizePercent)/2)));
             for(col = 0; col < mTabuleiro.getmCol(); col++){
-                cX = mTabuleiro.getCenterX(col);
+                cX = (int) mTabuleiro.getCenterX(col);
                 mExtraCanvas.drawText(mTabuleiro.getCharAsString(lin,col),cX,cY,mLetras);
             }
         }
@@ -126,5 +131,15 @@ public class TabuleiroView extends View {
     }
     public Bitmap getBitmap(){
         return mExtraBitmap;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+        mTabListener.touch(this,event);
+        return true;
+    }
+    public void setBitmap(Bitmap bmp){
+        mExtraBitmap = bmp;
     }
 }

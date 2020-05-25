@@ -1,6 +1,7 @@
 package com.necej.necej_cp.jogo_utils;
 
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 
 import org.jetbrains.annotations.NotNull;
@@ -83,4 +84,5 @@ public class Tabuleiro {
     public int getBaseY(int y){
         return mYGap*(y+1);
     }
+
 }
