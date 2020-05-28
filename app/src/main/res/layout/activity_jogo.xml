@@ -7,12 +7,38 @@
     tools:context=".JogoActivity">
 
     <com.necej.necej_cp.jogo_utils.TabuleiroView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/tabuleiro_image"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:id="@+id/dicas_legenda"
+        android:textSize="40sp"
+        android:text="Dicas"
+        android:textColor="@android:color/secondary_text_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabuleiro_image" />
+
+    <ScrollView
+        android:id="@+id/dicas_palavras"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dicas_legenda">
+        <RelativeLayout
+            android:id="@+id/relative_dicas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorTabBG">
+
+        </RelativeLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

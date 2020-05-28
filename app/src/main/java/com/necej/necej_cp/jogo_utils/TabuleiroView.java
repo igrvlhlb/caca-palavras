@@ -10,15 +10,19 @@ import android.graphics.fonts.Font;
 import android.graphics.fonts.FontStyle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.necej.necej_cp.R;
 import com.necej.necej_cp.listeners.TabuleiroListener;
+
+import java.util.logging.Logger;
 
 public class TabuleiroView extends View {
 
@@ -76,10 +80,10 @@ public class TabuleiroView extends View {
         mHeight = uniSz;
         if(mReady && uniSz > 0) {
             //Muda o tamanho da View
-            ViewGroup.LayoutParams layoutPar = this.getLayoutParams();
-            layoutPar.width = mWidth;
-            layoutPar.height = mHeight;
-            this.setLayoutParams(layoutPar);
+            //ViewGroup.LayoutParams layoutPar = this.getLayoutParams();
+            //layoutPar.width = mWidth;
+            //layoutPar.height = mHeight;
+            //this.setLayoutParams(this.getLayoutParams());
             //
             mTabuleiro.setXY(mWidth,mHeight);
             mLetras.setTextSize( (convertDpToPx(Math.min(mTabuleiro.getmXGap(),mTabuleiro.getmYGap())*mLetSizePercent, getContext() )/2)*mLetSizePercent);
@@ -92,6 +96,18 @@ public class TabuleiroView extends View {
             mTabListener = new TabuleiroListener(this);
 
         }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int w = ((ConstraintLayout) getParent()).getMeasuredWidth(),
+                h = ((ConstraintLayout) getParent()).getMeasuredHeight();
+        Log.i("Parent wodth", String.valueOf(w) + String.valueOf(h));
+        int measure = MeasureSpec.makeMeasureSpec(Math.min(h,w),MeasureSpec.EXACTLY);
+        Log.i("MEASURE", MeasureSpec.toString(measure));
+        super.onMeasure(measure, measure);
+        Log.i(getClass().getSimpleName() ,"Measured Height aft super" + MeasureSpec.toString(getMeasuredHeight()));
+        Log.i(getClass().getSimpleName() ,"Measured Width aft super" + MeasureSpec.toString(getMeasuredHeight()));
     }
 
     private void desenhaGrade(){
