@@ -66,7 +66,7 @@ public class Grade {
                     //    if(!podeBruto(nova, inserida)) falhou = true; //verifica, posicao por posicao, se ha intersecao destrutiva ou nao
                     //}
                     /*COMENTEI O BLOCO ACIMA POIS NAO E NECESSARIO*/
-                    if(!podeBruto(nova, inserida)) falhou = true;   // *****ATENCAO: FUNCAO NAO FUNCIONA COMO O ESPERADO*****
+                    if(!podeBruto(nova, inserida)) falhou = true;
                 }
                 if(!falhou) return true;
             } else return true; //se a posicao e valida e nao ha outras palavras na matriz podemos inserir a atual
@@ -115,7 +115,7 @@ public class Grade {
                 yE+=exist.direcao.getDy();
             }
             xN+=nova.direcao.getDx();
-            yN+=t*nova.direcao.getDy();
+            yN+=nova.direcao.getDy();
         }
         //se a execucao chegou aqui, nao foram encontradas intersecoes ou as intersecoes sao validas
         return true;

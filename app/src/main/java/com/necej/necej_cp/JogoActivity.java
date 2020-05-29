@@ -9,6 +9,9 @@ import com.necej.necej_cp.jogo_utils.Grade;
 import com.necej.necej_cp.jogo_utils.Tabuleiro;
 import com.necej.necej_cp.jogo_utils.TabuleiroView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.logging.Logger;
 
 public class JogoActivity extends AppCompatActivity {
@@ -26,7 +29,8 @@ public class JogoActivity extends AppCompatActivity {
         Logger.getAnonymousLogger().info(String.format("EXTRA_DIFICULDADE %s\n", mDificuldade));
         //this.hideBar();
         mTabuleiroView = findViewById(R.id.tabuleiro_image);
-        mGrade = new Grade(10,10);
+        mGrade = new Grade(12,12);
+        gradeInit();
         this.criaTabuleiro();
     }
 
@@ -52,5 +56,30 @@ public class JogoActivity extends AppCompatActivity {
         float density = this.getResources()
                 .getDisplayMetrics().density;
         return Math.round((float)px/density);
+    }
+    //teste
+    private void gradeInit(){
+        ArrayList<String> palavras;
+        palavras = new ArrayList<>(Arrays.asList(new String[] {
+                "palavra",
+                "teste",
+                "passou",
+                "pequena",
+                "algomaior",
+                "fim",
+                "pandemia",
+                "bacteria",
+                "coronavirus",
+                "epidemia",
+                "celula",
+                "cromossomo",
+                "fagocitose",
+                "rna",
+                "biologia",
+                "microbio",
+                "imunologia",
+                "lagartixa"
+        }));
+        mGrade.inserePalavras(palavras);
     }
 }

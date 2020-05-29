@@ -11,7 +11,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".JogoActivity"
             android:theme="@style/AppTheme"
-            android:parentActivityName=".TelaInicialActivity">
+            android:parentActivityName=".TelaInicialActivity"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity android:name=".SplashScreenActivity">

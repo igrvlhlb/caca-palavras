@@ -6,11 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.fonts.Font;
 import android.graphics.fonts.FontStyle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,14 +42,17 @@ public class TabuleiroView extends View {
 
     public TabuleiroView(Context context) {
         super(context);
+        initBackground();
     }
 
     public TabuleiroView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        initBackground();
     }
 
     public TabuleiroView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initBackground();
     }
 
 
@@ -105,7 +110,7 @@ public class TabuleiroView extends View {
         Log.i("Parent wodth", String.valueOf(w) + String.valueOf(h));
         int measure = MeasureSpec.makeMeasureSpec(Math.min(h,w),MeasureSpec.EXACTLY);
         Log.i("MEASURE", MeasureSpec.toString(measure));
-        super.onMeasure(measure, measure);
+        super.onMeasure(measure, measure+getPaddingBottom());
         Log.i(getClass().getSimpleName() ,"Measured Height aft super" + MeasureSpec.toString(getMeasuredHeight()));
         Log.i(getClass().getSimpleName() ,"Measured Width aft super" + MeasureSpec.toString(getMeasuredHeight()));
     }
@@ -157,5 +162,9 @@ public class TabuleiroView extends View {
     }
     public void setBitmap(Bitmap bmp){
         mExtraBitmap = bmp;
+    }
+    private void initBackground() {
+        setBackground(ViewUtils.generateBackgroundWithShadow(this,R.color.colorTabBG,
+                R.dimen.radius_corner,R.color.colorLinhasGrade,R.dimen.elevation, Gravity.BOTTOM));
     }
 }

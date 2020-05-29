@@ -52,8 +52,8 @@ public class Tabuleiro {
 
     public Point getCellIdx(int x, int y){
         int cX, cY;
-        cX = x/mXGap;
-        cY = y/mYGap;
+        cX = Math.max(Math.min((mLin-1),x/mXGap),0);
+        cY = Math.max(Math.min((mCol-1),y/mYGap),0);
         return new Point(cX,cY);
     }
     public int getCenterY(int lin){
