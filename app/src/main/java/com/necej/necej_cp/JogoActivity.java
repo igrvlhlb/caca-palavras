@@ -1,6 +1,8 @@
 package com.necej.necej_cp;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,12 +63,11 @@ public class JogoActivity extends AppCompatActivity {
     private void gradeInit(){
         ArrayList<String> palavras;
         palavras = new ArrayList<>(Arrays.asList(new String[] {
-                "palavra",
-                "teste",
-                "passou",
-                "pequena",
-                "algomaior",
-                "fim",
+                "jaleco",
+                "virus",
+                "fungo",
+                "placadepetri",
+                "reagente",
                 "pandemia",
                 "bacteria",
                 "coronavirus",
@@ -78,8 +79,11 @@ public class JogoActivity extends AppCompatActivity {
                 "biologia",
                 "microbio",
                 "imunologia",
-                "lagartixa"
+                "anticorpo",
+                "microscopio"
         }));
         mGrade.inserePalavras(palavras);
+        Log.i(this.getClass().getSimpleName(), mGrade.getInseridas());
+        ((TextView)findViewById(R.id.relative_dicas)).setText(mGrade.getInseridas());
     }
 }

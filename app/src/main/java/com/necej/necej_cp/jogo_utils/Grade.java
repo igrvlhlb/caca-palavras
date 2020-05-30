@@ -1,5 +1,7 @@
 package com.necej.necej_cp.jogo_utils;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -15,7 +17,7 @@ public class Grade {
     private final float razaoMinima = 0.75f; //minimo aceito de palavras inseridas/totais
     private int mLin, mCol;
     char[][] mat; //matriz de caracteres
-    private ArrayList<Palavra> inseridas = new ArrayList<>(); //palavras que ja conseguimos inserir
+    private ArrayList<Palavra> inseridas; //palavras que ja conseguimos inserir
 
     public Grade(int lin, int col){
         int i, j;
@@ -28,10 +30,12 @@ public class Grade {
     public boolean inserePalavras(ArrayList<String> entrada){
         Collections.shuffle(entrada);   //embaralha as palavras
         for(int tentativa = 0; tentativa < MAX_TENTATIVAS; tentativa++) { //repete o processo de tentativa de insercao ate 'MAX_TENTATIVA' vezes
+            inseridas = new ArrayList<>();
             for (String str : entrada) {
                 str=str.toUpperCase();  //todas os caracteres da matriz sao maiusculos
                 Palavra palavraAtual = new Palavra(str);
                 if (tryInsert(palavraAtual)) {
+                    Log.i(this.getClass().getSimpleName(),palavraAtual.strPalavra + " INSERIDA");
                     this.inseridas.add(palavraAtual);
                     for(int t = 0; t < palavraAtual.length; t++){
                         this.mat[palavraAtual.inicio.getY()+(t*palavraAtual.direcao.getDy())]
@@ -39,6 +43,8 @@ public class Grade {
                     }
                 }
             }
+            Log.i(this.getClass().getSimpleName(), "FIM DE RONDA " + tentativa +
+                    "("+((float)inseridas.size()/(float)entrada.size())+")");
             //se nao conseguir inserir o minimo necessario, repete
             if( ((float)inseridas.size()/(float)entrada.size()) >= razaoMinima ) return true;
         }
@@ -71,8 +77,7 @@ public class Grade {
                 if(!falhou) return true;
             } else return true; //se a posicao e valida e nao ha outras palavras na matriz podemos inserir a atual
         }
-        System.err.printf("Nao foi possivel inserir a palavra %s\n", nova.strPalavra);
-        Logger.getAnonymousLogger().info(String.format("Nao foi possivel inserir a palavra %s\n", nova.strPalavra));
+        Log.e(this.getClass().getSimpleName(), nova.strPalavra + "NAO FOI INSERIDA");
         return false; //nao foi possivel inserir
     }
 
@@ -155,5 +160,15 @@ public class Grade {
 
     int getmCol() {
         return mCol;
+    }
+
+    //debug
+    public String getInseridas(){
+        StringBuilder sb = new StringBuilder(100);
+        for(Palavra p : inseridas){
+            sb.append(p.strPalavra).append('\n');
+        }
+        sb.append(inseridas.size()+" PALAVRAS FORAM INSERIDAS");
+        return new String(sb);
     }
 }

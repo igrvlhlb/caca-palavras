@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
          />
-<!--secao omitida para depuracao do tabuleiro
+<!--secao omitida para depuracao do tabuleiro-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,11 +37,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dicas_legenda">
+        <!--
         <RelativeLayout
             android:id="@+id/relative_dicas"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </RelativeLayout>
+        -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relative_dicas"
+            android:textSize="20sp"/>
     </ScrollView>
-    -->
 </androidx.constraintlayout.widget.ConstraintLayout>
