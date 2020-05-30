@@ -4,27 +4,19 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.fonts.Font;
-import android.graphics.fonts.FontStyle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.res.ResourcesCompat;
 
 import com.necej.necej_cp.R;
 import com.necej.necej_cp.listeners.TabuleiroListener;
-
-import java.util.logging.Logger;
 
 public class TabuleiroView extends View {
 
