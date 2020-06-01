@@ -11,4 +11,13 @@
         <item>Difícil</item>
         <item>Muito Difícil</item>
     </string-array>
+
+    <string-array name="strings_facil">
+        <item>bacteria</item>
+        <item>celula</item>
+        <item>virus</item>
+        <item>biologia</item>
+        <item>pele</item>
+    </string-array>
+
 </resources>

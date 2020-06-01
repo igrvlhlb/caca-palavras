@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<palavras-desc xmlns:android="http://schemas.android.com/apk/res/android">
+    <extra
+        android:name="bacteria"
+        android:value="Desc_01"/>
+    <extra
+        android:name="celula"
+        android:value="Desc_02"/>
+    <extra
+        android:name="virus"
+        android:value="Seres que não possuem metabolismo próprio."/>
+    <extra
+        android:name="biologia"
+        android:value="Desc_04"/>
+    <extra
+        android:name="pele"
+        android:value="Maior orgão do corpo humano."/>
+</palavras-desc>

@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.necej.necej_cp.jogo_utils.Grade;
+import com.necej.necej_cp.jogo_utils.ResourcesAdditions;
 import com.necej.necej_cp.jogo_utils.Tabuleiro;
 import com.necej.necej_cp.jogo_utils.TabuleiroView;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.logging.Logger;
+import com.necej.necej_cp.jogo_utils.Dificuldades;
 
 public class JogoActivity extends AppCompatActivity {
 
@@ -22,16 +24,18 @@ public class JogoActivity extends AppCompatActivity {
     TabuleiroView mTabuleiroView;
     Tabuleiro mTabuleiro;
     Grade mGrade;
+    Bundle descricoes;
     private String mDificuldade;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jogo);
         mDificuldade = getIntent().getExtras().getString(TelaInicialActivity.EXTRA_DIFICULDADE);
-        Logger.getAnonymousLogger().info(String.format("EXTRA_DIFICULDADE %s\n", mDificuldade));
+        Log.i(getClass().getSimpleName(),mDificuldade);
         //this.hideBar();
         mTabuleiroView = findViewById(R.id.tabuleiro_image);
         mGrade = new Grade(12,12);
+        descricoes = ResourcesAdditions.getResourcesExtras(getResources(),"palavras-desc",R.xml.descricoes);
         gradeInit();
         this.criaTabuleiro();
     }
@@ -62,28 +66,36 @@ public class JogoActivity extends AppCompatActivity {
     //teste
     private void gradeInit(){
         ArrayList<String> palavras;
-        palavras = new ArrayList<>(Arrays.asList(new String[] {
-                "jaleco",
-                "virus",
-                "fungo",
-                "placadepetri",
-                "reagente",
-                "pandemia",
-                "bacteria",
-                "coronavirus",
-                "epidemia",
-                "celula",
-                "cromossomo",
-                "fagocitose",
-                "rna",
-                "biologia",
-                "microbio",
-                "imunologia",
-                "anticorpo",
-                "microscopio"
-        }));
+        switch (Dificuldades.fromString(mDificuldade)){
+            case FACIL:
+                palavras = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.strings_facil)));
+                setTitle(getTitle() + " (" + Dificuldades.FACIL.getVal() + ")");
+                Log.i(getClass().getSimpleName(),"Dificuldade selecionada: "+Dificuldades.FACIL.getVal());
+                break;
+            case INTERMEDIARIO:
+                palavras = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.strings_facil)));
+                setTitle(getTitle() + " (" + Dificuldades.INTERMEDIARIO.getVal() + ")");
+                Log.i(getClass().getSimpleName(),"Dificuldade selecionada: "+Dificuldades.INTERMEDIARIO.getVal());
+                break;
+            case DIFICIL:
+                palavras = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.strings_facil)));
+                setTitle(getTitle() + " (" + Dificuldades.DIFICIL.getVal() + ")");
+                Log.i(getClass().getSimpleName(),"Dificuldade selecionada: "+Dificuldades.DIFICIL.getVal());
+                break;
+            case MUITO_DIFICIL:
+                palavras = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.strings_facil)));
+                setTitle(getTitle() + " (" + Dificuldades.MUITO_DIFICIL.getVal() + ")");
+                Log.i(getClass().getSimpleName(),"Dificuldade selecionada: "+Dificuldades.MUITO_DIFICIL.getVal());
+                break;
+            default:
+                palavras = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.strings_facil)));
+        }
         mGrade.inserePalavras(palavras);
         Log.i(this.getClass().getSimpleName(), mGrade.getInseridas());
         ((TextView)findViewById(R.id.relative_dicas)).setText(mGrade.getInseridas());
+    }
+
+    public Bundle getDescricoes() {
+        return descricoes;
     }
 }
