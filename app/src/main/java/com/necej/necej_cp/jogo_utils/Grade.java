@@ -14,8 +14,9 @@ import java.util.logging.Logger;
 public class Grade {
 
     private final int MAX_TENTATIVAS = 20;
-    private final float razaoMinima = 0.75f; //minimo aceito de palavras inseridas/totais
-    private int mLin, mCol;
+    private final float razaoMinima = 0.3f; //minimo aceito de palavras inseridas/totais
+    private final float razaoMaxima = 0.6f;
+    private int mLin, mCol, matSize, mLetrasInseridas;
     char[][] mat; //matriz de caracteres
     private ArrayList<Palavra> inseridas; //palavras que ja conseguimos inserir
 
@@ -23,6 +24,7 @@ public class Grade {
         int i, j;
         this.mLin = lin;
         this.mCol = col;
+        this.matSize = lin*col;
         this.mat = new char[lin][col];
         inicializaMat();
     }
@@ -31,12 +33,15 @@ public class Grade {
         Collections.shuffle(entrada);   //embaralha as palavras
         for(int tentativa = 0; tentativa < MAX_TENTATIVAS; tentativa++) { //repete o processo de tentativa de insercao ate 'MAX_TENTATIVA' vezes
             inseridas = new ArrayList<>();
+            int letrasInseridas = 0;
             for (String str : entrada) {
                 str=str.toUpperCase();  //todas os caracteres da matriz sao maiusculos
                 Palavra palavraAtual = new Palavra(str);
                 if (tryInsert(palavraAtual)) {
                     Log.i(this.getClass().getSimpleName(),palavraAtual.strPalavra + " INSERIDA");
+                    if( ( ( ( (float)letrasInseridas+palavraAtual.length) / (float)matSize ) > razaoMaxima)) continue;
                     this.inseridas.add(palavraAtual);
+                    letrasInseridas+=palavraAtual.length;
                     for(int t = 0; t < palavraAtual.length; t++){
                         this.mat[palavraAtual.inicio.getY()+(t*palavraAtual.direcao.getDy())]
                                 [palavraAtual.inicio.getX()+(t*palavraAtual.direcao.getDx())] = palavraAtual.strPalavra.charAt(t);
@@ -44,9 +49,12 @@ public class Grade {
                 }
             }
             Log.i(this.getClass().getSimpleName(), "FIM DE RONDA " + tentativa +
-                    "("+((float)inseridas.size()/(float)entrada.size())+")");
+                    "("+((float)letrasInseridas/(float)matSize)+"["+
+                    (float)letrasInseridas + "/" + (float)matSize + "])");
+
             //se nao conseguir inserir o minimo necessario, repete
-            if( ((float)inseridas.size()/(float)entrada.size()) >= razaoMinima ) return true;
+            mLetrasInseridas = letrasInseridas;
+            if( ((float)letrasInseridas/(float)matSize) >= razaoMinima ) return true;
         }
         return false;
     }
@@ -168,7 +176,8 @@ public class Grade {
         for(Palavra p : inseridas){
             sb.append(p.strPalavra).append('\n');
         }
-        sb.append(inseridas.size()+" PALAVRAS FORAM INSERIDAS");
+        sb.append(inseridas.size()+" PALAVRAS FORAM INSERIDAS ("+ mLetrasInseridas + " LETRAS)");
         return new String(sb);
     }
+
 }
