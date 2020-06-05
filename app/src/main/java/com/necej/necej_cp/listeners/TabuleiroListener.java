@@ -59,6 +59,7 @@ public class TabuleiroListener {
                         //restaura estado original (antes do toque) do bitmap
                         restauraBitmap();
                         tracaReta(tmp);
+                        mMovCoord.set(tmp.x,tmp.y);
                         mTabView.invalidate();
                     }
                 }

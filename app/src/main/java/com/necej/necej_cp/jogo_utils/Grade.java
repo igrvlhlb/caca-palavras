@@ -144,8 +144,7 @@ public class Grade {
     private boolean validoPos(Palavra palavra){
         int x = palavra.fim.getX();
         int y = palavra.fim.getY();
-        return (x>=0) && (x<this.mCol) && (y>=0) && (y<this.mLin)
-                && (x!=palavra.inicio.getX() || y!=palavra.inicio.getY());
+        return (x>=0) && (x<this.mCol) && (y>=0) && (y<this.mLin);
     }
 
     public void mPrint(){
@@ -180,7 +179,7 @@ public class Grade {
     public String getInseridas(){
         StringBuilder sb = new StringBuilder(100);
         for(Palavra p : inseridas){
-            sb.append(p.strPalavra).append('\n');
+            sb.append(p.strPalavra).append(" ").append(p.inicio).append('\n');
         }
         sb.append(inseridas.size()+" PALAVRAS FORAM INSERIDAS ("+ mLetrasInseridas + " LETRAS)");
         return new String(sb);

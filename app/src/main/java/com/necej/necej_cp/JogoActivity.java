@@ -2,11 +2,14 @@ package com.necej.necej_cp;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.necej.necej_cp.jogo_utils.DicasViewAdapter;
+import com.necej.necej_cp.jogo_utils.Dificuldades;
 import com.necej.necej_cp.jogo_utils.Grade;
 import com.necej.necej_cp.jogo_utils.ResourcesAdditions;
 import com.necej.necej_cp.jogo_utils.Tabuleiro;
@@ -14,18 +17,18 @@ import com.necej.necej_cp.jogo_utils.TabuleiroView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.logging.Logger;
-import com.necej.necej_cp.jogo_utils.Dificuldades;
-
 public class JogoActivity extends AppCompatActivity {
 
     int mImageSize;
-    TabuleiroView mTabuleiroView;
-    Tabuleiro mTabuleiro;
-    Grade mGrade;
-    Bundle descricoes;
+    private TabuleiroView mTabuleiroView;
+    private Tabuleiro mTabuleiro;
+    private Grade mGrade;
+    private RecyclerView recyclerDicas;
+    private RecyclerView.Adapter mDicasViewAdapter;
+    private RecyclerView.LayoutManager mLmanager;
     private String mDificuldade;
+    private static Bundle descricoes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,10 +95,15 @@ public class JogoActivity extends AppCompatActivity {
         }
         mGrade.inserePalavras(palavras);
         Log.i(this.getClass().getSimpleName(), mGrade.getInseridas());
-        ((TextView)findViewById(R.id.relative_dicas)).setText(mGrade.getInseridas());
+        recyclerDicas = (RecyclerView) findViewById(R.id.recycler_dicas);
+        mLmanager = new LinearLayoutManager(this);
+        mDicasViewAdapter = new DicasViewAdapter( mGrade.getInseridasAsList());
+        recyclerDicas.setHasFixedSize(true);
+        recyclerDicas.setLayoutManager(mLmanager);
+        recyclerDicas.setAdapter(mDicasViewAdapter);
     }
 
-    public Bundle getDescricoes() {
+    public static Bundle getDescricoes() {
         return descricoes;
     }
 }

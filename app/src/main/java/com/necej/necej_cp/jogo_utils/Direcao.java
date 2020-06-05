@@ -5,6 +5,7 @@ import java.util.Random;
 class Direcao{
     private int dx, dy;
     private final int[] vals = {-1,0,1};
+    Random rnd = new Random();
 
     public Direcao(){this.rndDir();}
 
@@ -15,9 +16,10 @@ class Direcao{
     }
 
     public void rndDir(){
-        Random rnd = new Random();
-        this.dx = this.vals[rnd.nextInt(3)];
-        this.dy = this.vals[rnd.nextInt(3)];
+        do {
+            this.dx = this.vals[rnd.nextInt(3)];
+            this.dy = this.vals[rnd.nextInt(3)];
+        } while ((dx==0 && dy==0)); //pelo menos dx ou pelo menos dy deve ser diferente de zero
     }
 
     public int getDx() {
