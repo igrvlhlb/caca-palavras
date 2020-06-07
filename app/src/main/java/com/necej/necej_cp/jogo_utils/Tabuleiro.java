@@ -84,5 +84,7 @@ public class Tabuleiro {
     public int getBaseY(int y){
         return mYGap*(y+1);
     }
-
+    public Grade getGrade(){
+        return mGrade;
+    }
 }

@@ -2,17 +2,15 @@ package com.necej.necej_cp.listeners;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.necej.necej_cp.jogo_utils.Cor;
 import com.necej.necej_cp.jogo_utils.Tabuleiro;
 import com.necej.necej_cp.jogo_utils.TabuleiroView;
-
-import java.util.logging.Logger;
 
 public class TabuleiroListener {
     private TabuleiroView mTabView;
@@ -42,8 +40,6 @@ public class TabuleiroListener {
         float x = event.getX(), y = event.getY();
         Point tmp = mTabuleiro.getCellIdx((int)x, (int)y);
 
-        Logger.getAnonymousLogger().info(String.format("TouchEvent %d",event.getAction()));
-
         switch(act){
             case MotionEvent.ACTION_DOWN:
                 int color = mCor.getRandomColor(mAlpha);
@@ -65,8 +61,11 @@ public class TabuleiroListener {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if(tmp.equals(mToqueIni)){
+                String selecionada = mTabuleiro.getGrade().contemPalavra(mToqueIni, mMovCoord);
+                Log.d(getClass().getSimpleName(), (selecionada==null ? "NENHUMA" : selecionada) + "SELECIONADA");
+                if(tmp.equals(mToqueIni) || selecionada == null){
                     restauraBitmap();
+                    mTabView.invalidate();
                 }
                 break;
             default:

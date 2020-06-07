@@ -1,11 +1,12 @@
 package com.necej.necej_cp.jogo_utils;
 
+import android.graphics.Point;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-import java.util.logging.Logger;
+
 
 /**
  * Classe para a armazenar o objeto caca palavras.
@@ -58,9 +59,11 @@ public class Grade {
             mLetrasInseridas = letrasInseridas;
             if( ((float)letrasInseridas/(float)matSize) >= razaoMinima ) {
                 escrevePalavras();
+                Log.i(getClass().getSimpleName(), String.valueOf(raw_inseridas));
                 return true;
             };
         }
+        Log.i(getClass().getSimpleName(), String.valueOf(raw_inseridas));
         escrevePalavras();
         return false;
     }
@@ -199,5 +202,44 @@ public class Grade {
                         [palavraAtual.inicio.getX() + (t * palavraAtual.direcao.getDx())] = palavraAtual.strPalavra.charAt(t);
             }
         }
+    }
+    public String contemPalavra(Point ini, Point fim){
+        StringBuilder sb;
+        String res;
+        int dX, dY;
+        dX = fim.x-ini.x;
+        dY = fim.y-ini.y;
+        //se a variacao de x e y sao ambas 0 ou se ambas nao sao 0, mas tem modulos diferentes. esses sao os unicos casos invalidos
+        if( (dX==0 && dY==0) || ( (dX!=0 && dY!=0) && (Math.abs(dX) != Math.abs(dY)) ) ) return null;
+        sb = leChars(ini,dX,dY);
+        Log.i(getClass().getSimpleName(), String.valueOf(sb == null ? "nulo":sb));
+        res = procuraPalavra(sb);
+        Log.i(getClass().getSimpleName(), res == null ? "NULO" : res);
+        return (res == null) ? null : res;
+    }
+
+    private StringBuilder leChars(Point ini, int dX, int dY){
+        StringBuilder sb = new StringBuilder();
+        int max = Math.max(Math.abs(dX), Math.abs(dY));
+        int duX = dX == 0 ? 0 : dX/Math.abs(dX),
+                duY = dY == 0 ? 0 : dY/Math.abs(dY);
+        int step = 0, atualX = ini.x, atualY = ini.y;
+        while(step <= max){
+            sb.append(mat[atualY][atualX]);
+            atualX += duX;
+            atualY += duY;
+            step++;
+        }
+        return sb;
+    }
+
+    private String procuraPalavra(StringBuilder sb){
+        if(sb!=null) {
+            String str = sb.toString(), rev = sb.reverse().toString();
+            for (String p : raw_inseridas) {
+                if (str.equalsIgnoreCase(p) || rev.equalsIgnoreCase(p)) return str;
+            }
+        }
+        return null;
     }
 }
