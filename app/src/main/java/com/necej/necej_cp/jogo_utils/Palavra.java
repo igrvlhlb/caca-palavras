@@ -7,6 +7,7 @@ public class Palavra {
     String strPalavra;
     Coord inicio, fim;
     Direcao direcao;
+    private boolean mMarcada;
     int length; //atributo apenas para facilitar a checagem do tamanho da string
 
     public Palavra(String str){
@@ -14,6 +15,7 @@ public class Palavra {
         this.length=str.length();
         this.direcao = new Direcao();
         this.inicio = new Coord();
+        mMarcada = false;
     }
 
     public Palavra(char[] str){
@@ -94,5 +96,12 @@ public class Palavra {
     //apenas *conveniencia*
     public char charAt(int idx){
         return strPalavra.charAt(idx);
+    }
+
+    public void setMarcada(boolean bool) {
+        mMarcada = bool;
+    }
+    public boolean getMarcada(){
+        return mMarcada;
     }
 }

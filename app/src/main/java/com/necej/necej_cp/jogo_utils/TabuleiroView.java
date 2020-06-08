@@ -159,4 +159,5 @@ public class TabuleiroView extends View {
         setBackground(ViewUtils.generateBackgroundWithShadow(this,R.color.colorTabBG,
                 R.dimen.radius_corner,R.color.colorLinhasGrade,R.dimen.elevation, Gravity.BOTTOM));
     }
+
 }

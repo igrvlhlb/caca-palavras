@@ -211,11 +211,11 @@ public class Grade {
         dY = fim.y-ini.y;
         //se a variacao de x e y sao ambas 0 ou se ambas nao sao 0, mas tem modulos diferentes. esses sao os unicos casos invalidos
         if( (dX==0 && dY==0) || ( (dX!=0 && dY!=0) && (Math.abs(dX) != Math.abs(dY)) ) ) return null;
-        sb = leChars(ini,dX,dY);
-        Log.i(getClass().getSimpleName(), String.valueOf(sb == null ? "nulo":sb));
+        sb = leChars(ini,dX,dY); //a linha acima garante que 'sb' nao sera null
+        Log.i(getClass().getSimpleName(), String.valueOf(sb));
         res = procuraPalavra(sb);
-        Log.i(getClass().getSimpleName(), res == null ? "NULO" : res);
-        return (res == null) ? null : res;
+        Log.i(getClass().getSimpleName(), res == null ? "NAO ENCONTRADA" : res + "ENCONTRADA");
+        return res;
     }
 
     private StringBuilder leChars(Point ini, int dX, int dY){
@@ -236,10 +236,17 @@ public class Grade {
     private String procuraPalavra(StringBuilder sb){
         if(sb!=null) {
             String str = sb.toString(), rev = sb.reverse().toString();
-            for (String p : raw_inseridas) {
-                if (str.equalsIgnoreCase(p) || rev.equalsIgnoreCase(p)) return str;
+            for (Palavra p : inseridas) {
+                if (str.equals(p.strPalavra) && !p.getMarcada()) return str;
+                else if (rev.equals(p.strPalavra) && !p.getMarcada()) return rev;
             }
         }
         return null;
     }
+    public void removeString(String s){
+        for(Palavra p : inseridas){
+            if(s.equals(p.strPalavra)) p.setMarcada(true);
+        };
+    }
+
 }

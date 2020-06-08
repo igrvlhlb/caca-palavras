@@ -66,6 +66,8 @@ public class TabuleiroListener {
                 if(tmp.equals(mToqueIni) || selecionada == null){
                     restauraBitmap();
                     mTabView.invalidate();
+                } else{
+                    mTabuleiro.getGrade().removeString(selecionada);
                 }
                 break;
             default:
