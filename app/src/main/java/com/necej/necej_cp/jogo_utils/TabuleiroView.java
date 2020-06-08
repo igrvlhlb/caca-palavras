@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -14,6 +13,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.necej.necej_cp.R;
 import com.necej.necej_cp.listeners.TabuleiroListener;
@@ -64,7 +64,8 @@ public class TabuleiroView extends View {
         mColorBG = getResources().getColor(R.color.colorTabBG);
         mLetras.setColor(mColorFonteGrade);
         mLetras.setTextAlign(Paint.Align.CENTER);
-        mLetras.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL));
+        ResourcesCompat.getFont(getContext(),R.font.roboto);
+        mLetras.setTypeface(ResourcesCompat.getFont(getContext(),R.font.roboto));
         mLinhas.setColor(mColorLinhasGrade);
         mLinhas.setStrokeWidth(mLinhaWidth);
     }

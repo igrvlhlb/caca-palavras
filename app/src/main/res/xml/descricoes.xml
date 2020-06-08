@@ -2,7 +2,7 @@
 <palavras-desc xmlns:android="http://schemas.android.com/apk/res/android">
     <extra
         android:name="bacteria"
-        android:value="Desc_01"/>
+        android:value="Um microorganismo composto por apenas uma célula."/>
     <extra
         android:name="celula"
         android:value="Desc_02"/>
@@ -11,8 +11,23 @@
         android:value="Seres que não possuem metabolismo próprio."/>
     <extra
         android:name="biologia"
-        android:value="Desc_04"/>
+        android:value="Estudo dos seres vivos."/>
     <extra
         android:name="pele"
         android:value="Maior orgão do corpo humano."/>
+    <extra
+        android:name="terra"
+        android:value="3º planeta mais próximo ao Sol."/>
+    <extra
+        android:name="asia"
+        android:value="Maior continente do mundo."/>
+    <extra
+        android:name="china"
+        android:value="País mais populoso do mundo."/>
 </palavras-desc>
+
+<!-- Template
+    <extra
+        android:name=""
+        android:value=""/>
+-->

@@ -11,13 +11,16 @@
         <item>Difícil</item>
         <item>Muito Difícil</item>
     </string-array>
-
+<!--array de strings para a dificuldade facil-->
     <string-array name="strings_facil">
         <item>bacteria</item>
         <item>celula</item>
         <item>virus</item>
         <item>biologia</item>
         <item>pele</item>
+        <item>terra</item>
+        <item>asia</item>
+        <item>china</item>
     </string-array>
 
 </resources>
