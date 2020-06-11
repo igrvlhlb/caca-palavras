@@ -10,6 +10,8 @@ public class Direcao{
 
     public Direcao(){this.rndDir();}
 
+    public Direcao(Dificuldades dif){this.rndDir(dif);}
+
     //copia 'd' para uma nova instancia de Direcao
     public Direcao(Direcao d) throws NullPointerException{
         if(d == null) throw new NullPointerException();
@@ -44,8 +46,8 @@ public class Direcao{
         return dx == direcao.dx &&
                 dy == direcao.dy;
     }
-    public void rndDir(String dif){
-        switch (Dificuldades.fromString(dif)){
+    public void rndDir(Dificuldades dif){
+        switch (dif){
             case FACIL:
                 rndDir(false);
                 break;

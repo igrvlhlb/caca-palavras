@@ -29,9 +29,8 @@ public class DirecaoTest {
     @Test
     public void rndDirDificuldades(){
         for(Dificuldades dif : Dificuldades.values()) {
-            String d = dif.getVal();
             for (int i = 0; i < 100; i++) {
-                dir.rndDir(d);
+                dir.rndDir(dif);
                 assertFalse(dir.getDx() == 0 && dir.getDy() == 0);
                 switch (dif) {
                     case FACIL:

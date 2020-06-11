@@ -3,6 +3,7 @@ package com.necej.necej_cp.jogo_utils;
 import com.necej.necej_cp.exceptions.CoordInvalidaException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class Palavra {
@@ -20,8 +21,20 @@ public class Palavra {
         mMarcada = false;
     }
 
+    public Palavra(String str, Dificuldades dif){
+        this.strPalavra = str;
+        this.length=str.length();
+        this.direcao = new Direcao(dif);
+        this.inicio = new Coord();
+        mMarcada = false;
+    }
+
     public Palavra(char[] str){
         this(new String(str));
+    }
+
+    public Palavra(char[] str, Dificuldades dif){
+        this(new String(str), dif);
     }
 
     //copia atributos de p para 'this'
@@ -33,7 +46,7 @@ public class Palavra {
         this.length=this.strPalavra.length();
     }
 
-    public void setLoc(int lin, int col) throws CoordInvalidaException {
+    public void setLoc(int lin, int col) {
         this.inicio=new Coord(lin,col);
         this.atualiza(); //atualiza 'fim' de acordo com 'inicio' e 'direcao'
     }
@@ -44,12 +57,12 @@ public class Palavra {
         return strPalavra;
     }
 
-    public void mudaDir(){
+    public void mudaDir(Dificuldades dif){
         try {
-            this.direcao.rndDir();
+            this.direcao.rndDir(dif);
         } catch(NullPointerException e){
             e.printStackTrace();
-            this.direcao=new Direcao();
+            this.direcao=new Direcao(dif);
         }
         try {
             this.atualiza();
@@ -103,7 +116,20 @@ public class Palavra {
     public void setMarcada(boolean bool) {
         mMarcada = bool;
     }
+
     public boolean getMarcada(){
         return mMarcada;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Palavra palavra = (Palavra) o;
+        return strPalavra.equals(palavra.strPalavra);
+    }
+
+    public Direcao getDir(){
+        return direcao;
     }
 }

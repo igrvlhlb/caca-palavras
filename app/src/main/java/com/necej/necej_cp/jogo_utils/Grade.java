@@ -21,13 +21,15 @@ public class Grade {
     char[][] mat; //matriz de caracteres
     private ArrayList<Palavra> inseridas; //palavras que ja conseguimos inserir
     private ArrayList<String> raw_inseridas;
+    private Dificuldades mDificuldade;
 
-    public Grade(int lin, int col){
+    public Grade(int lin, int col, Dificuldades dificuldade){
         int i, j;
         this.mLin = lin;
         this.mCol = col;
         this.matSize = lin*col;
         this.mat = new char[lin][col];
+        mDificuldade = dificuldade;
         inicializaMat();
     }
 
@@ -78,7 +80,7 @@ public class Grade {
 
             do {    //garante que e possivel posicionar a palavra na matriz, sem considerar outras palavras
                 nova.mudaLoc(this.mLin,this.mCol);    //atribui valores randomicos a posicao inicial
-                nova.mudaDir();                     //atribui valores randomicos
+                nova.mudaDir(mDificuldade);                     //atribui valores randomicos
             }while(!validoPos(nova));               //verifica se a posicao do atributo 'final' e valida e repete  caso nao seja
 
             if(!this.inseridas.isEmpty()) {

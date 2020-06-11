@@ -27,17 +27,19 @@ public class JogoActivity extends AppCompatActivity {
     private RecyclerView recyclerDicas;
     private RecyclerView.Adapter mDicasViewAdapter;
     private RecyclerView.LayoutManager mLmanager;
-    private String mDificuldade;
+    private String mDificuldadeStr;
+    private Dificuldades mDificuldade;
     private static Bundle descricoes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jogo);
-        mDificuldade = getIntent().getExtras().getString(TelaInicialActivity.EXTRA_DIFICULDADE);
-        Log.i(getClass().getSimpleName(),mDificuldade);
+        mDificuldadeStr = getIntent().getExtras().getString(TelaInicialActivity.EXTRA_DIFICULDADE);
+        mDificuldade = Dificuldades.fromString(mDificuldadeStr);
+        Log.i(getClass().getSimpleName(), mDificuldadeStr);
         //this.hideBar();
         mTabuleiroView = findViewById(R.id.tabuleiro_image);
-        mGrade = new Grade(12,12);
+        mGrade = new Grade(12,12, mDificuldade);
         descricoes = ResourcesAdditions.getResourcesExtras(getResources(),"palavras-desc",R.xml.descricoes);
         gradeInit();
         this.criaTabuleiro();
@@ -69,7 +71,7 @@ public class JogoActivity extends AppCompatActivity {
     //teste
     private void gradeInit(){
         ArrayList<String> palavras;
-        switch (Dificuldades.fromString(mDificuldade)){
+        switch (Dificuldades.fromString(mDificuldadeStr)){
             case FACIL:
                 palavras = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.strings_facil)));
                 setTitle(getTitle() + " (" + Dificuldades.FACIL.getVal() + ")");
