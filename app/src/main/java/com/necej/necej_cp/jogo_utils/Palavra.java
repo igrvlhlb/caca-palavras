@@ -1,5 +1,7 @@
 package com.necej.necej_cp.jogo_utils;
 
+import com.necej.necej_cp.exceptions.CoordInvalidaException;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -31,7 +33,7 @@ public class Palavra {
         this.length=this.strPalavra.length();
     }
 
-    public void setLoc(int lin, int col){
+    public void setLoc(int lin, int col) throws CoordInvalidaException {
         this.inicio=new Coord(lin,col);
         this.atualiza(); //atualiza 'fim' de acordo com 'inicio' e 'direcao'
     }

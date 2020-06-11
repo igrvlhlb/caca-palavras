@@ -1,5 +1,8 @@
 package com.necej.necej_cp.jogo_utils;
 
+import com.necej.necej_cp.exceptions.CoordInvalidaException;
+
+import java.util.Objects;
 import java.util.Random;
 
 public class Coord {
@@ -18,7 +21,7 @@ public class Coord {
         return y;
     }
 
-    public Coord(int x, int y){
+    public Coord(int x, int y) {
         this.x=x;
         this.y=y;
     }
@@ -29,7 +32,11 @@ public class Coord {
     }
 
     public Coord tracaReta(int len, Direcao dir){
-        return new Coord(this.x+(dir.getDx()*(len-1)),this.y+(dir.getDy()*(len-1)));
+        try {
+            return new Coord(this.x+(dir.getDx()*(len)),this.y+(dir.getDy()*(len)));
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
 
     /**
@@ -46,5 +53,14 @@ public class Coord {
     public String toString(){
         //return new String(String.valueOf('('+this.x+','+this.y+')'));
         return String.format("(%d, %d)",this.y,this.x);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coord coord = (Coord) o;
+        return x == coord.x &&
+                y == coord.y;
     }
 }
