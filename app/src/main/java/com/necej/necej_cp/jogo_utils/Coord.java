@@ -1,12 +1,10 @@
 package com.necej.necej_cp.jogo_utils;
 
-import com.necej.necej_cp.exceptions.CoordInvalidaException;
+import android.graphics.Point;
 
-import java.util.Objects;
 import java.util.Random;
 
-public class Coord {
-    private int x,y; //private garante que so serao alterados pelos metodos apropriados
+public class Coord extends Point {
 	
     //metodo construtor auxiliar que copia outra instancia de Coord
     public Coord(Coord c){
@@ -29,6 +27,11 @@ public class Coord {
     public Coord(){
         this.x=0;
         this.y=0;
+    }
+
+    public Coord(Point p){
+        this.x = p.x;
+        this.y = p.y;
     }
 
     public Coord tracaReta(int len, Direcao dir){

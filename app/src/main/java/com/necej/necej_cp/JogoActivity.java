@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.necej.necej_cp.exceptions.TamanhoInvalidoException;
 import com.necej.necej_cp.jogo_utils.DicasViewAdapter;
 import com.necej.necej_cp.jogo_utils.Dificuldades;
 import com.necej.necej_cp.jogo_utils.Grade;
@@ -39,7 +40,11 @@ public class JogoActivity extends AppCompatActivity {
         Log.i(getClass().getSimpleName(), mDificuldadeStr);
         //this.hideBar();
         mTabuleiroView = findViewById(R.id.tabuleiro_image);
-        mGrade = new Grade(12,12, mDificuldade);
+        try {
+            mGrade = new Grade(12,12, mDificuldade);
+        } catch (TamanhoInvalidoException e) {
+            e.printStackTrace();
+        }
         descricoes = ResourcesAdditions.getResourcesExtras(getResources(),"palavras-desc",R.xml.descricoes);
         gradeInit();
         this.criaTabuleiro();
@@ -96,7 +101,7 @@ public class JogoActivity extends AppCompatActivity {
                 palavras = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.strings_facil)));
         }
         mGrade.inserePalavras(palavras);
-        Log.i(this.getClass().getSimpleName(), mGrade.getInseridas());
+        Log.i(this.getClass().getSimpleName(), mGrade.getInseridasAsString());
         recyclerDicas = (RecyclerView) findViewById(R.id.recycler_dicas);
         mLmanager = new LinearLayoutManager(this);
         mDicasViewAdapter = new DicasViewAdapter( mGrade.getInseridasAsList());

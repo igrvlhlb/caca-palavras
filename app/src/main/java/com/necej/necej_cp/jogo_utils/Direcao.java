@@ -1,6 +1,5 @@
 package com.necej.necej_cp.jogo_utils;
 
-import java.util.Objects;
 import java.util.Random;
 
 public class Direcao{
@@ -19,15 +18,27 @@ public class Direcao{
         this.dy = d.dy;
     }
 
+    public Direcao(int dx,int dy){
+        this.dx = dx;
+        this.dy = dy;
+    }
+
     public void rndDir(){
         rndDir(true);
     }
 
     public void rndDir(boolean signed){
-        do {
-            this.dx = this.vals[1 + rnd.nextInt(2)];
-            this.dy = this.vals[1 + rnd.nextInt(2)];
-        } while ((dx==0 && dy==0)); //pelo menos dx ou pelo menos dy deve ser diferente de zero
+        if (!signed) {
+            do {
+                this.dx = this.vals[1 + rnd.nextInt(2)];
+                this.dy = this.vals[1 + rnd.nextInt(2)];
+            } while ((dx == 0 && dy == 0)); //pelo menos dx ou pelo menos dy deve ser diferente de zero
+        } else{
+            do {
+                this.dx = this.vals[rnd.nextInt(3)];
+                this.dy = this.vals[rnd.nextInt(3)];
+            } while ((dx == 0 && dy == 0)); //pelo menos dx ou pelo menos dy deve ser diferente de zero
+        }
     }
 
     public int getDx() {

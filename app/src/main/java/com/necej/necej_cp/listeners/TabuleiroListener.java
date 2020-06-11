@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.necej.necej_cp.jogo_utils.Cor;
+import com.necej.necej_cp.jogo_utils.Palavra;
 import com.necej.necej_cp.jogo_utils.Tabuleiro;
 import com.necej.necej_cp.jogo_utils.TabuleiroView;
 
@@ -61,13 +62,14 @@ public class TabuleiroListener {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                String selecionada = mTabuleiro.getGrade().contemPalavra(mToqueIni, mMovCoord);
+                Palavra palSelec = mTabuleiro.getGrade().contemPalavra(mToqueIni, mMovCoord);
+                String selecionada = palSelec == null ? null : palSelec.toString();
                 Log.d(getClass().getSimpleName(), (selecionada==null ? "NENHUMA" : selecionada) + "SELECIONADA");
                 if(tmp.equals(mToqueIni) || selecionada == null){
                     restauraBitmap();
                     mTabView.invalidate();
                 } else{
-                    mTabuleiro.getGrade().removeString(selecionada);
+                    //mTabuleiro.getGrade().removeString(selecionada);
                 }
                 break;
             default:

@@ -1,10 +1,6 @@
 package com.necej.necej_cp.jogo_utils;
 
-import com.necej.necej_cp.exceptions.CoordInvalidaException;
-
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Random;
+import android.graphics.Point;
 
 public class Palavra {
     String strPalavra;
@@ -18,6 +14,7 @@ public class Palavra {
         this.length=str.length();
         this.direcao = new Direcao();
         this.inicio = new Coord();
+        atualiza();
         mMarcada = false;
     }
 
@@ -26,6 +23,7 @@ public class Palavra {
         this.length=str.length();
         this.direcao = new Direcao(dif);
         this.inicio = new Coord();
+        atualiza();
         mMarcada = false;
     }
 
@@ -46,6 +44,13 @@ public class Palavra {
         this.length=this.strPalavra.length();
     }
 
+    public Palavra(Grade g, Point ini, Point fim){
+        this.inicio = new Coord(ini);
+        this.fim = new Coord(fim);
+        leChars(g);
+        //atualiza();
+    }
+
     public void setLoc(int lin, int col) {
         this.inicio=new Coord(lin,col);
         this.atualiza(); //atualiza 'fim' de acordo com 'inicio' e 'direcao'
@@ -64,12 +69,12 @@ public class Palavra {
             e.printStackTrace();
             this.direcao=new Direcao(dif);
         }
-        try {
-            this.atualiza();
+        /*try {
+            //this.atualiza();
         } catch (NullPointerException e) {
             //ja e garantido que 'direcao' nao e nulo, entao se encontramos uma excecao, 'inicio' e nulo
             //entao nao atualizamos o objeto
-        }
+        }*/
     }
 
     public void mudaLoc(int linhas, int colunas){
@@ -78,20 +83,20 @@ public class Palavra {
         } catch(NullPointerException e){
             this.inicio = new Coord(); //ao gerar uma nova instancia de Coord, ja temos valores randomicos
         }
-        try {
-            this.atualiza();
+        /*try {
+            //this.atualiza();
         } catch(NullPointerException e){
             this.direcao=new Direcao();
             this.atualiza(); //como sempre estaremos lidando com atributos randomicos, e seguro chamar atualiza()
-        }
+        }*/
     }
 
-    private void atualiza() throws NullPointerException{
-        try {
-            this.fim=inicio.tracaReta(this.length,this.direcao);
-        } catch (NullPointerException e){
-            e.printStackTrace();
-            throw new NullPointerException();
+    void atualiza() throws NullPointerException{
+        if(this.inicio != null && this.direcao!=null) {
+            this.fim = inicio.tracaReta(this.length, this.direcao);
+        } else if(this.fim != null && this.inicio != null){
+            this.direcao = new Direcao((fim.x-inicio.x) != 0 ? (fim.x - inicio.x) / Math.abs(fim.x - inicio.x) : 0,
+                    (fim.y-inicio.y) != 0 ? (fim.y - inicio.y) / Math.abs(fim.y - inicio.y) : 0);
         }
     }
 
@@ -121,15 +126,49 @@ public class Palavra {
         return mMarcada;
     }
 
+    public Point getInicio(){
+        return this.inicio;
+    }
+
+    public Point getFim(){
+        return this.fim;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        StringBuilder sb = new StringBuilder(strPalavra);
+        String rev = sb.reverse().toString();
         Palavra palavra = (Palavra) o;
-        return strPalavra.equals(palavra.strPalavra);
+        return strPalavra.equals(palavra.strPalavra) || rev.equals(palavra.strPalavra);
     }
 
     public Direcao getDir(){
         return direcao;
+    }
+
+    private void leChars(Grade grade){
+        StringBuilder sb = new StringBuilder();
+        int dX, dY;
+        char[][] mat = grade.mat;
+        dX = this.fim.x - this.inicio.x;
+        dY = this.fim.y - this.inicio.y;
+        int max = Math.max(Math.abs(dX), Math.abs(dY));
+        int duX = dX == 0 ? 0 : dX/Math.abs(dX),
+                duY = dY == 0 ? 0 : dY/Math.abs(dY);
+        int step = 0, atualX = inicio.x, atualY = inicio.y;
+        while(step <= max){
+            sb.append(mat[atualY][atualX]);
+            atualX += duX;
+            atualY += duY;
+            step++;
+        }
+        strPalavra = sb.toString();
+    }
+
+    private void setStrPalavra(String str){
+        strPalavra = str;
+        length = str.length();
     }
 }

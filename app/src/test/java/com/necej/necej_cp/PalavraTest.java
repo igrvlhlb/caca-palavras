@@ -29,6 +29,13 @@ public class PalavraTest {
         character = new Palavra(cTeste);
         assertEquals(string, character);
     }
+
+    @Test
+    public void equalsRevTest(){
+        Palavra rev = new Palavra(new StringBuilder(sTeste).reverse().toString());
+        assertEquals(palavraTeste,rev);
+    }
+
     @Test
     public void rndDirTest(){
         for(Dificuldades dif : Dificuldades.values()) {

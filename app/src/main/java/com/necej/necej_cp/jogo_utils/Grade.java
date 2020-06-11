@@ -1,11 +1,13 @@
 package com.necej.necej_cp.jogo_utils;
 
 import android.graphics.Point;
-import android.util.Log;
+
+import com.necej.necej_cp.exceptions.TamanhoInvalidoException;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.logging.Logger;
 
 
 /**
@@ -22,9 +24,10 @@ public class Grade {
     private ArrayList<Palavra> inseridas; //palavras que ja conseguimos inserir
     private ArrayList<String> raw_inseridas;
     private Dificuldades mDificuldade;
+    private final int minTamanho = 6;
 
-    public Grade(int lin, int col, Dificuldades dificuldade){
-        int i, j;
+    public Grade(int lin, int col, Dificuldades dificuldade) throws TamanhoInvalidoException {
+        if(lin<minTamanho || col<minTamanho) throw new TamanhoInvalidoException("O tamanho minimo para um tabuleiro e" + minTamanho);
         this.mLin = lin;
         this.mCol = col;
         this.matSize = lin*col;
@@ -41,31 +44,36 @@ public class Grade {
             raw_inseridas = new ArrayList<>();
             int letrasInseridas = 0;
             for (String str : entrada) {
+                if(str.length()>Math.max(mLin,mCol)) continue;
                 tmp = new String(str);
                 str=str.toUpperCase();  //todas os caracteres da matriz sao maiusculos
-                Palavra palavraAtual = new Palavra(str);
+                Palavra palavraAtual = new Palavra(str, mDificuldade);
                 if( !( ( ( (float)letrasInseridas+palavraAtual.length) / (float)matSize ) > razaoMaxima)) {
                     if (tryInsert(palavraAtual)) {
-                        Log.i(this.getClass().getSimpleName(), palavraAtual.strPalavra + " INSERIDA");
+                        //Log.i(this.getClass().getSimpleName(), palavraAtual.strPalavra + " INSERIDA");
+                        Logger.getAnonymousLogger().info(palavraAtual.strPalavra + " INSERIDA");
                         this.inseridas.add(palavraAtual);
                         this.raw_inseridas.add(tmp);
                         letrasInseridas += palavraAtual.length;
                     }
                 }
             }
-            Log.i(this.getClass().getSimpleName(), "FIM DE RONDA " + tentativa +
+            /*Log.i(this.getClass().getSimpleName(), "FIM DE RONDA " + tentativa +
                     "("+((float)letrasInseridas/(float)matSize)+"["+
                     (float)letrasInseridas + "/" + (float)matSize + "])");
-
+            */
+            Logger.getAnonymousLogger().info("FIM DE RONDA " + tentativa +
+                    "("+((float)letrasInseridas/(float)matSize)+"["+
+                    (float)letrasInseridas + "/" + (float)matSize + "])");
             //se nao conseguir inserir o minimo necessario, repete
             mLetrasInseridas = letrasInseridas;
             if( ((float)letrasInseridas/(float)matSize) >= razaoMinima ) {
                 escrevePalavras();
-                Log.i(getClass().getSimpleName(), String.valueOf(raw_inseridas));
+                //Log.i(getClass().getSimpleName(), String.valueOf(raw_inseridas));
                 return true;
             };
         }
-        Log.i(getClass().getSimpleName(), String.valueOf(raw_inseridas));
+        //Log.i(getClass().getSimpleName(), String.valueOf(raw_inseridas));
         escrevePalavras();
         return false;
     }
@@ -81,6 +89,7 @@ public class Grade {
             do {    //garante que e possivel posicionar a palavra na matriz, sem considerar outras palavras
                 nova.mudaLoc(this.mLin,this.mCol);    //atribui valores randomicos a posicao inicial
                 nova.mudaDir(mDificuldade);                     //atribui valores randomicos
+                nova.atualiza();
             }while(!validoPos(nova));               //verifica se a posicao do atributo 'final' e valida e repete  caso nao seja
 
             if(!this.inseridas.isEmpty()) {
@@ -96,7 +105,7 @@ public class Grade {
                 if(!falhou) return true;
             } else return true; //se a posicao e valida e nao ha outras palavras na matriz podemos inserir a atual
         }
-        Log.e(this.getClass().getSimpleName(), nova.strPalavra + "NAO FOI INSERIDA");
+        //Log.e(this.getClass().getSimpleName(), nova.strPalavra + "NAO FOI INSERIDA");
         return false; //nao foi possivel inserir
     }
 
@@ -180,8 +189,12 @@ public class Grade {
         return mCol;
     }
 
+    public ArrayList<Palavra> getInseridas(){
+        return new ArrayList<>(inseridas);
+    }
+
     //debug
-    public String getInseridas(){
+    public String getInseridasAsString(){
         StringBuilder sb = new StringBuilder(100);
         for(Palavra p : inseridas){
             sb.append(p.strPalavra).append(" ").append(p.inicio).append('\n');
@@ -197,6 +210,7 @@ public class Grade {
     public ArrayList<String> getInseridasAsList(){
         return raw_inseridas;
     }
+
     private void escrevePalavras(){
         for(Palavra palavraAtual : inseridas) {
             for (int t = 0; t < palavraAtual.length; t++) {
@@ -205,6 +219,7 @@ public class Grade {
             }
         }
     }
+    /*
     public String contemPalavra(Point ini, Point fim){
         StringBuilder sb;
         String res;
@@ -244,10 +259,44 @@ public class Grade {
             }
         }
         return null;
+    }*/
+    public Palavra contemPalavra(Point ini, Point fim){
+        boolean res;
+        int dX, dY;
+        dX = (int)fim.x-ini.x;
+        dY = (int)fim.y-ini.y;
+        Palavra tmp;
+        //se a variacao de x e y sao ambas 0 ou se ambas nao sao 0, mas tem modulos diferentes. esses sao os unicos casos invalidos
+        if( (dX==0 && dY==0) || ( (dX!=0 && dY!=0) && (Math.abs(dX) != Math.abs(dY)) ) ) return null;
+        tmp = new Palavra(this,ini,fim);
+        //Log.i(getClass().getSimpleName(), tmp.toString());
+        res = procuraPalavra(tmp);
+        //Log.i(getClass().getSimpleName(), res == false ? "NAO ENCONTRADA" : tmp + "ENCONTRADA");
+        if (res) {
+
+            return tmp;
+        } else return null;
     }
+    private boolean procuraPalavra(Palavra palavra){
+        if(palavra!=null) {
+            for (Palavra p : inseridas) {
+                if (palavra.equals(p) && !p.getMarcada()){
+                    p.setMarcada(true);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void removeString(String s){
         for(Palavra p : inseridas){
             if(s.equals(p.strPalavra)) p.setMarcada(true);
+        };
+    }
+    public void removePalavra(Palavra teste){
+        for(Palavra p : inseridas){
+            if(teste.equals(p)) p.setMarcada(true);
         };
     }
 
